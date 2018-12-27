@@ -9,55 +9,92 @@
         VKDemo
     </title>
 
+
+
+    <!-- <script type="text/javascript">
+        function LoadRun()
+        {
+            // var itmes = document.getElementById("step_action").getElementsByTagName("li");
+            // for(var i=0;i<itmes.length;i++)
+            // {
+            //     if(i%2 == 0)
+            //     {
+            //         itmes[i].style.backgroundColor ="#eee";
+            //     }
+            // }
+            
+        }
+        
+
+    </script> -->
+
 </head>
 
 <body>
-    <div id="background">
-        <div id="main_div">
-            <div id="login_div">
-                <input type="text" name="userid" />
-                <input type="text" name="roomid" />
-                <select id="roletype">
-                    <option value="role_teacher">Teacher</option>
-                    <option value="role_student">Student</option>
-                    <option value="role_parent">Parent</option>
-                    <option value="role_fireman">FireMan</option>
-                </select>
-                <input type="submit" name="login_btn" />
+
+    <div>
+        <div class="top_div">
+            <div class="step_div">
+                <ul id="step_action">
+                    <li>Version</li>
+                    <li>LoadKit</li>
+                    <li>EnterRoom</li>
+                    <li>MuteLocal</li>
+                    <li>MuteRemote</li>
+                    <li>PlayBGM</li>
+                    <li>PauseBGM</li>
+                    <li>ExitRoom</li>
+                    <li>DestoryKit</li>
+                    <li>DeviceTest</li>
+                </ul>
             </div>
-            <div id="render_div">
-                <div id="local_render">local_render
+            <div class="main_div">
+                <div class="login_div">
+                    <table width="100%">
+                        <tr>
+                            <td width="30%">
+                                <input type="text" name="userid" placeholder="UserID" />
+                            </td>
+                            <td width="35%">
+                                <input type="text" name="roomid" placeholder="RoomID" />
+                            </td>
+                            <td width="20%">
+                                <select name="roletype">
+                                    <option value="role_teacher" selected="selected">Teacher</option>
+                                    <option value="role_student">Student</option>
+                                    <option value="role_parent">Parent</option>
+                                    <option value="role_fireman">FireMan</option>
+                                </select>
+                            </td>
+                            <td width="15%">
+                                <button type="button" name="login_btn">
+                                    Login
+                                </button>
+                            </td>
+
+                        </tr>
+                    </table>
                 </div>
-                <div id="remote_render0">remote_render0
-                </div>
-                <div id="remote_render1">remote_render1
-                </div>
-                <div id="remote_render2">remote_render2
-                </div>
-                <div id="remote_render3">remote_render3
-                </div>
-                <div id="remote_render4">remote_render4
+
+                <div class="render_div">
+                    <div class="local_render">local_render
+                    </div>
+                    <div class="remote_render0">remote_render0
+                    </div>
+                    <div class="remote_render1">remote_render1
+                    </div>
+                    <div class="remote_render2">remote_render2
+                    </div>
+                    <div class="remote_render3">remote_render3
+                    </div>
+                    <div class="remote_render4">remote_render4
+                    </div>
                 </div>
             </div>
-            <div id="log_div">
-                <textarea id="log_content" rows="10" cols="30">
-                我是一个文本框。 
-            </textarea>
-            </div>
+
         </div>
-        <div id="step_div">
-            <ul>
-                <li>Version</li>
-                <li>LoadKit</li>
-                <li>EnterRoom</li>
-                <li>MuteLocal</li>
-                <li>MuteRemote</li>
-                <li>PlayBGM</li>
-                <li>PauseBGM</li>
-                <li>ExitRoom</li>
-                <li>DestoryKit</li>
-                <li>DeviceTest</li>
-            </ul>
+        <div class="log_div">
+            <textarea class="log_content" rows="10" cols="30" readonly="readonly" placeholder="日志区域"></textarea>
         </div>
     </div>
 </body>
