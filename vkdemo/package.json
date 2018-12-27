@@ -1,0 +1,11 @@
+{
+  "name": "vkdemo",
+  "version": "1.0.0",
+  "description": "trtc vipkid electron demo",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "alexichen",
+  "license": "ISC"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "wxtest",
+  "version": "1.0.0",
+  "main": "index.html",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^4.0.0",
+    "electron-webpack": "^2.6.1",
+    "webpack": "^4.28.2"
+  }
+}
