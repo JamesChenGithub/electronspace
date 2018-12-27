@@ -7,5 +7,9 @@
     "start": "electron ."
   },
   "author": "alexichen",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "electron-builder": "^20.38.4",
+    "jquery": "^3.3.1"
+  }
 }
