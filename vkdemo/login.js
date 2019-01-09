@@ -1,11 +1,6 @@
 var http = require("http");
 
 function loginWith(userid, roomid){
-
-
-    
-    
-
         var params = {
                     'appid' : const_sdkappid, 
                     'accounttype' : const_accountType,
@@ -49,8 +44,4 @@ function loginWith(userid, roomid){
           // write data to request body
           req.write('{"string": "Hello, World"}');
           req.end();
-          
-          
-        
-        
     }
