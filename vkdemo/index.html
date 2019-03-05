@@ -1,172 +1,212 @@
 <!DOCTYPE html>
 
 <html>
-
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="index.css" rel="stylesheet" type="text/css" />
-    <title>
-        VKDemo
-    </title>
+    <title>VKDemo</title>
     <script type="text/javascript">
-        var $ = require('jquery');
-        const_sdkappid = 1400037025;
-        const_accountType = 14418;
-        const_usersig = '';
-        const_privatemap = '';
-        const_roletype = '';
-        g_userid = 0;
-        g_roomid = 0;
+      var $ = require("jquery");
+      const_sdkappid = 1400037025;
+      const_accountType = 14418;
+      const_usersig = "";
+      const_privatemap = "";
+      const_roletype = "";
+      const_loginsucc = false;
+      g_userid = 0;
+      g_roomid = 0;
 
+      // 工具函数
+      function randomdefault() {
+        var userid = randomUserid();
+        document.getElementById("userid").value = userid;
 
-        // 工具函数
-        function randomdefault() {
-            var userid = randomUserid();
-            document.getElementById("userid").value = userid;
+        var roomid = randomRoomid();
+        document.getElementById("roomid").value = roomid;
+      }
 
-            var roomid = randomRoomid();
-            document.getElementById("roomid").value = roomid;
-        }
+      function randomUserid() {
+        return parseInt(Math.random() * 10000 + 20000);
+      }
 
-        function randomUserid() {
-            return parseInt(Math.random() * 10000 + 20000);
-        }
+      function randomRoomid() {
+        return parseInt(Math.random() * 100 + 1500);
+      }
 
-        function randomRoomid() {
-            return parseInt(Math.random() * 100 + 1500);
-        }
+      function onLoginSucc() {
+        console.log("loginsucc");
 
-        function onLoginSucc() {
+        document.getElementById("userid").disabled = true;
+        document.getElementById("roomid").disabled = true;
+        // $("userid").attr("diabled", "true");
+        // $("roomid").attr("diabled", "true");
+        var role = document.getElementById("roletype");
+        const_roletype = role.options[role.selectedIndex].value;
+        console.log(const_roletype);
+        document.getElementById("roletype").disabled = true;
 
-        }
+        document.getElementById("roletype")
+        const_loginsucc = true;
 
-        function loginWith(userid, roomid) {
-            var FetchSigCgi = 'https://www.qcloudtrtc.com/sxb_dev/?svc=account&cmd=authPrivMap';
-            var params = {
-                'appid': const_sdkappid,
-                'accounttype': const_accountType,
-                'roomnum': parseInt(roomid),
-                'identifier': userid,
-                'pwd': '123',
-                'privMap': 255,
-                'expire_time': 604800
-            };
-            console.log(params);
-            $.ajax({
-                type: "POST",
-                url: FetchSigCgi,
-                dataType: 'json',
-                data: JSON.stringify(params),
-                success: function (json) {
-                    if (json && json.errorCode === 0) {
-                        //一会儿进入房间要用到
-                        var userSig = json.data.userSig;
-                        var privateMapKey = json.data.privMapEncrypt;
-                        const_usersig = userSig;
-                        const_privatemap = privateMapKey;
-                        console.log(json);
-                        alert("登录成功");
-                    } else {
-                         console.error(json);
-                    }
-                },
-                error: function (err) {
-                     console.error(err);
-                }
-            })
+        document.getElementById("login_btn").textContent = "LogOut";
+        
 
-        }
+      }
 
-        // 登录
-        function onClickLogin() {
+      function loginWith(userid, roomid) {
+        var FetchSigCgi =
+          "https://www.qcloudtrtc.com/sxb_dev/?svc=account&cmd=authPrivMap";
+        var params = {
+          appid: const_sdkappid,
+          accounttype: const_accountType,
+          roomnum: parseInt(roomid),
+          identifier: userid,
+          pwd: "123",
+          privMap: 255,
+          expire_time: 604800
+        };
+        console.log(params);
+        $.ajax({
+          type: "POST",
+          url: FetchSigCgi,
+          dataType: "json",
+          data: JSON.stringify(params),
+          success: function(json) {
+            if (json && json.errorCode === 0) {
+              //一会儿进入房间要用到
+              var userSig = json.data.userSig;
+              var privateMapKey = json.data.privMapEncrypt;
+              const_usersig = userSig;
+              const_privatemap = privateMapKey;
 
-            var userid = document.getElementById("userid").value;
-            console.log(userid);
-            if (userid.length === 0) {
-                alert("UserID不能为空");
-                return;
+              console.log(json);
+              onLoginSucc();
+            } else {
+              console.error(json);
             }
+          },
+          error: function(err) {
+            console.error(err);
+          }
+        });
+      }
 
-            var roomid = document.getElementById("roomid").value;
-            console.log(roomid);
-            if (roomid.length === 0) {
-                alert("RoomID不能为空");
-                return;
-            }
-            // TODO：添加正整数判断
-            loginWith(userid, roomid);
+      // 登录
+      function onClickLogin() {
+        if (!const_loginsucc) {
+          var userid = document.getElementById("userid").value;
+          console.log(userid);
+          if (userid.length === 0) {
+            alert("UserID不能为空");
+            return;
+          }
+
+          var roomid = document.getElementById("roomid").value;
+          console.log(roomid);
+          if (roomid.length === 0) {
+            alert("RoomID不能为空");
+            return;
+          }
+          // TODO：添加正整数判断
+          loginWith(userid, roomid);
         }
+        else {
+            document.getElementById("userid").disabled = false;
+            document.getElementById("roomid").disabled = false;
+            
+            var role = document.getElementById("roletype");
+            const_roletype = role.options[role.selectedIndex].value;
+            console.log(const_roletype);
+            document.getElementById("roletype").disabled = false;
+            document.getElementById("login_btn").textContent = "Login";
+            const_usersig = null;
+            const_privatemap = null;
+            const_loginsucc = false;
+        }
+      }
     </script>
+  </head>
 
-</head>
-
-<body onload="randomdefault()">
-
+  <body onload="randomdefault()">
     <div>
-        <div class="top_div">
-            <div class="step_div">
-                <ul id="step_action">
-                    <li>Version</li>
-                    <li>LoadKit</li>
-                    <li>EnterRoom</li>
-                    <li>MuteLocal</li>
-                    <li>MuteRemote</li>
-                    <li>PlayBGM</li>
-                    <li>PauseBGM</li>
-                    <li>ExitRoom</li>
-                    <li>DestoryKit</li>
-                    <li>DeviceTest</li>
-                </ul>
-            </div>
-            <div class="main_div">
-                <div class="login_div">
-                    <table width="100%">
-                        <tr>
-                            <td width="30%">
-                                <input type="text" id="userid" placeholder="UserID" />
-                            </td>
-                            <td width="35%">
-                                <input type="text" id="roomid" placeholder="RoomID" />
-                            </td>
-                            <td width="20%">
-                                <select name="roletype">
-                                    <option value="role_teacher" selected="selected">Teacher</option>
-                                    <option value="role_student">Student</option>
-                                    <option value="role_parent">Parent</option>
-                                    <option value="role_fireman">FireMan</option>
-                                </select>
-                            </td>
-                            <td width="15%">
-                                <button type="button" name="login_btn" onclick="onClickLogin()">
-                                    Login
-                                </button>
-                            </td>
-
-                        </tr>
-                    </table>
-                </div>
-
-                <div class="render_div">
-                    <div class="local_render">local_render
-                    </div>
-                    <div class="remote_render0">remote_render0
-                    </div>
-                    <div class="remote_render1">remote_render1
-                    </div>
-                    <div class="remote_render2">remote_render2
-                    </div>
-                    <div class="remote_render3">remote_render3
-                    </div>
-                    <div class="remote_render4">remote_render4
-                    </div>
-                </div>
-            </div>
-
+      <div class="top_div">
+        <div class="step_div">
+          <ul id="step_action">
+            <li>Version</li>
+            <li>LoadKit</li>
+            <li>EnterRoom</li>
+            <li>MuteLocal</li>
+            <li>MuteRemote</li>
+            <li>PlayBGM</li>
+            <li>PauseBGM</li>
+            <li>ExitRoom</li>
+            <li>DestoryKit</li>
+            <li>DeviceTest</li>
+          </ul>
         </div>
-        <div class="log_div">
-            <textarea class="log_content" rows="10" cols="30" readonly="readonly" placeholder="日志区域"></textarea>
+        <div class="main_div">
+          <div class="login_div">
+            <table width="100%">
+              <tr>
+                <td width="30%">
+                  <input
+                    type="text"
+                    name="userid"
+                    id="userid"
+                    placeholder="UserID"
+                  />
+                </td>
+                <td width="35%">
+                  <input
+                    type="text"
+                    name="roomid"
+                    id="roomid"
+                    placeholder="RoomID"
+                  />
+                </td>
+                <td width="20%">
+                  <select id="roletype">
+                    <option value="role_teacher" selected="selected"
+                      >Teacher</option
+                    >
+                    <option value="role_student">Student</option>
+                    <option value="role_parent">Parent</option>
+                    <option value="role_fireman">FireMan</option>
+                  </select>
+                </td>
+                <td width="15%">
+                  <button
+                    type="button"
+                    name="login_btn"
+                    id="login_btn"
+                    onclick="onClickLogin()"
+                  >
+                    Login
+                  </button>
+                </td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="render_div">
+            <div class="local_render">local_render</div>
+            <div class="remote_render0">remote_render0</div>
+            <div class="remote_render1">remote_render1</div>
+            <div class="remote_render2">remote_render2</div>
+            <div class="remote_render3">remote_render3</div>
+            <div class="remote_render4">remote_render4</div>
+          </div>
         </div>
+      </div>
+      <div class="log_div">
+        <textarea
+          class="log_content"
+          rows="10"
+          cols="30"
+          readonly="readonly"
+          placeholder="日志区域"
+        ></textarea>
+      </div>
     </div>
-</body>
-
+  </body>
 </html>
